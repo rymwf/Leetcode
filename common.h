@@ -64,20 +64,20 @@ inline void printTree(TreeNode* root)
         return;
     }
 
-    //queue<TreeNode *> myQueue;
-    //myQueue.emplace(root);
-    //while (!myQueue.empty())
-    //{
-    //    unsigned int que_size = myQueue.size();
-    //    for (int i = 0; i < que_size; ++i) {
-    //        if (myQueue.front() == nullptr) {kk}
-    //        if(myQueuemyQueue)printf("%d ",myQueue.front()->val);
-    //        if (myQueue.front()->left != nullptr)myQueue.emplace(myQueue.front()->left);
-    //        if (myQueue.front()->right!= nullptr)myQueue.emplace(myQueue.front()->right);
-    //        myQueue.pop();
-    //    }
-    //    printf("\n");
-    //}
+    queue<TreeNode*> myque;
+    myque.emplace(root);
+
+    while (!myque.empty())
+    {
+        int l = myque.size();
+        for (int i = 0; i < l; ++i) {
+            printf("%d ",myque.front()->val);
+            if(myque.front()->left!=nullptr)myque.emplace(myque.front()->left);
+            if(myque.front()->right!=nullptr)myque.emplace(myque.front()->right);
+            myque.pop();
+        }
+        printf("\n");
+    }
 }
 
 inline void printVector(vector<int> r)
