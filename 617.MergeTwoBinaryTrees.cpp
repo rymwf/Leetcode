@@ -90,7 +90,7 @@ public:
 
 };
 
-void main() {
+int main() {
     int a1[] = {1,2,3,4,5};
     int a2[] = {1,2,3,4,5};
 
@@ -103,6 +103,7 @@ void main() {
     Solution s;
     TreeNode* root=s.mergeTrees(t1,t2);
     printTree(root);
+    return 0;
 }
 
 
