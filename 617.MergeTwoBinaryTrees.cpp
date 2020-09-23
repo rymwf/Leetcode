@@ -36,37 +36,46 @@ Merged tree:
 class Solution {
 public:
     TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
-        static function<bool(TreeNode*, TreeNode*, TreeNode*)> func = [](TreeNode* t1, TreeNode* t2, TreeNode* root)->bool {
-            if (t1 == nullptr && t2 == nullptr) {
-                return true;
-            }
+        static function<void(TreeNode*, TreeNode*, TreeNode*)> func = [](TreeNode* t1, TreeNode* t2, TreeNode* root){
             if (t1 != nullptr && t2 == nullptr) {
                 root->val = t1->val;
-                root->left = new TreeNode(0);
-                root->right = new TreeNode(0);
-                if (func(t1->left, nullptr, root->left)) { delete root->left; root->left = nullptr; }
-                if (func(t1->right, nullptr, root->right)) { delete root->right; root->right = nullptr; }
-            }
-            if (t2 != nullptr && t1 == nullptr) {
+				if (t1->left != nullptr) {
+					root->left = new TreeNode(0);
+					func(t1->left, nullptr, root->left);
+				}
+				if (t1->right != nullptr) {
+					root->right = new TreeNode(0);
+					func(t1->right, nullptr, root->right);
+				}
+			}
+			if (t2 != nullptr && t1 == nullptr) {
                 root->val = t2->val;
-                root->left = new TreeNode(0);
-                root->right = new TreeNode(0);
-                func(nullptr,t2->left,root->left);
-                func(nullptr,t2->right,root->right);
-                if (func(nullptr,t2->left, root->left)) { delete root->left; root->left = nullptr; }
-                if (func(nullptr, t2->right,root->right)) { delete root->right; root->right = nullptr; }
-            }
+                if (t2->left != nullptr) {
+					root->left = new TreeNode(0);
+					func(nullptr,t2->left, root->left);
+				}
+				if (t2->right != nullptr) {
+					root->right = new TreeNode(0);
+					func( nullptr,t2->right, root->right);
+				}
+           }
             if (t1 != nullptr && t2 != nullptr) {
                 root->val = t2->val + t1->val;
-                root->left = new TreeNode(0);
-                root->right = new TreeNode(0);
-                if (func(t1->left,t2->left, root->left)) { delete root->left; root->left = nullptr; }
-                if (func(t1->right, t2->right, root->right)) { delete root->right; root->right = nullptr; }
+                if (t1->left != nullptr || t2->left != nullptr) {
+					root->left = new TreeNode(0);
+					func(t1->left, t2->left, root->left);
+				}
+				if (t1->right != nullptr || t2->right != nullptr) {
+					root->right = new TreeNode(0);
+					func(t1->right, t2->right, root->right);
+				}
             }
-            return false;
             };
-        TreeNode* root = new TreeNode(0);
-        if (func(t1, t2, root)) { delete root; root = nullptr; }
+        TreeNode* root=nullptr;
+        if (t1 != nullptr || t2 != nullptr) {
+            root = new TreeNode(0);
+            func(t1,t2,root);
+        }
         return root;
     }
 
@@ -92,7 +101,7 @@ void main() {
     initTree(t2,a2,sizeof(a2)/sizeof(a2[0]));
     printTree(t2);
     Solution s;
-    TreeNode* root=s.mergeTrees2(t1,t2);
+    TreeNode* root=s.mergeTrees(t1,t2);
     printTree(root);
 }
 
