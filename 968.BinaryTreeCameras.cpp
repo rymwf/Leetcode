@@ -56,7 +56,7 @@ public:
     }
 };
 
-void main() {
+int main() {
     int a[] = {0,0,0};
     TreeNode* root = new TreeNode(a[0]);
     initTree(root,a,sizeof(a)/sizeof(a[0]));
@@ -64,7 +64,7 @@ void main() {
     Solution s;
     int r = s.minCameraCover(root);
     printf("%d",r);
-
+    return 0;
 }
 
 

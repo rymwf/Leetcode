@@ -33,9 +33,10 @@ int lengthOfLongestSubstring(std::string s)
     return maxNum;
 }
 
-void main()
+int main()
 {
     std::string str = "tmmzuxt";
     int r = lengthOfLongestSubstring(str);
     printf("%d", r);
+    return 0;
 }

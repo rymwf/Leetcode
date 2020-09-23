@@ -43,7 +43,7 @@ public:
 };
 
 
-void main() {
+int main() {
 
     vector<int> a{1,1,1,1,1,2,2,2,2};
     
@@ -56,5 +56,5 @@ void main() {
         }
         printf("\n");
     }
-
+return 0;
 }

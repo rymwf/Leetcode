@@ -62,7 +62,7 @@ public:
 };
 
 
-void main() {
+int main() {
 
 //    int a[][2]={{1, 2}, {2, 3}, {3, 4}, {4, 1}, {1, 5},};
  int a[][2]=   {{2, 1}, {3, 1}, {4, 2}, {1, 4}};
@@ -81,4 +81,5 @@ void main() {
     Solution s;
     vector<int>res=s.findRedundantDirectedConnection(b);
     printf("%d %d",res[0],res[1]);
+    return 0;
 }

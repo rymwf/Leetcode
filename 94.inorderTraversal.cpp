@@ -1,6 +1,6 @@
 #include "common.h"
 
-//TODO: ¿ÉÒÔ²»ÓÃÌí¼Ó×´Ì¬Á¿
+//TODO: ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
 
 vector<int> inorderTraversal(TreeNode* root)
 {
@@ -45,7 +45,7 @@ vector<int> inorderTraversal(TreeNode* root)
 	return res;
 }
 
-void main()
+int main()
 {
 	int a[] = { 1, 2, 3, 4, 5 };
 	TreeNode* root = new TreeNode(a[0]);
@@ -53,4 +53,5 @@ void main()
 
 	vector<int> r = inorderTraversal(root);
 	printVector(r);
+	return 0;
 }

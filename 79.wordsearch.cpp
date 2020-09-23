@@ -46,7 +46,7 @@ bool exist(vector<vector<char>> &board, string word)
     return false;
 }
 
-void main()
+int main()
 {
     vector<vector<char>> a;
 
@@ -57,4 +57,5 @@ void main()
     a[1].push_back('d');
     int r = exist(a, "cdba");
     printf("%d", r);
+    return 0;
 }

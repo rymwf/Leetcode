@@ -60,7 +60,7 @@ public:
 
 };
 
-void main() {
+int main() {
 
     int a[] = {1,2,3,4,5,6};
     TreeNode* root = new TreeNode(a[0]);
@@ -68,4 +68,5 @@ void main() {
     Solution s;
     int r = s.sumOfLeftLeaves2(root);
     printf("%d",r);
+    return 0;
 }

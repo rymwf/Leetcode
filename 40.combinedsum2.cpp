@@ -39,7 +39,7 @@ vector<vector<int>> combinationSum2(vector<int> &candidates, int target)
     return res;
 }
 
-void main()
+int main()
 {
     vector<int> a{4, 4, 2, 1, 4, 2, 2, 1, 3};
     //    vector<int> a{1, 1, 2, 1, 2, 3};
@@ -53,4 +53,5 @@ void main()
         }
         printf("\n");
     }
+    return 0;
 }

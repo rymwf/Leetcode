@@ -71,7 +71,7 @@ public:
 };
 
 
-void main() {
+int main() {
 	vector<int> a{1,2,3};
 
 	Solution s; 
@@ -87,6 +87,6 @@ void main() {
 	    printf("\n");
 	}
 
-
+return 0;
 
 }

@@ -63,7 +63,7 @@ public:
 	}
 };
 
-void main() {
+int main() {
 	//int a[] = {1,2,3,4,5};
 	int a[] = { 1,2,3,4,5,6,7,8 };
 	TreeNode* root = new TreeNode(a[0]);
@@ -72,5 +72,6 @@ void main() {
 	Solution s;
 	s.convertBST(root);
 	printTree(root);
+	return 0;
 }
 

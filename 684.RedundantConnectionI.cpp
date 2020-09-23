@@ -29,7 +29,7 @@ Update (2017-09-26):
 We have overhauled the problem description + test cases and specified clearly the graph is an undirected graph. For the directed graph follow up please see Redundant Connection II). We apologize for any inconvenience caused.
 
 */
-//TODO: 并查集
+//TODO: 锟斤拷锟介集
 #include "common.h"
 class Solution {
 public:
@@ -58,7 +58,7 @@ public:
     }
 };
 
-void main() {
+int main() {
     int a[][2]=   {{2, 1}, {3, 4}, {4, 2}, {1, 4}};
     vector<vector<int>>  b;
     int sizex = sizeof(a) / sizeof(a[0]);
@@ -76,6 +76,7 @@ void main() {
     Solution s;
     vector<int>res=s.findRedundantConnection(b);
     printf("%d %d",res[0],res[1]);
+    return 0;
 }
 
 
