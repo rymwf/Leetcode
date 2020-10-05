@@ -8,6 +8,7 @@
 #include <functional>
 #include <unordered_set>
 #include <unordered_map>
+#include<map>
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)       \
