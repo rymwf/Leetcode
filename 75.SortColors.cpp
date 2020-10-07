@@ -38,31 +38,75 @@ Constraints:
     1 <= n <= 300
     nums[i] is 0, 1, or 2.
 */
-#include"common.h"
+#include "common.h"
 
-class Solution {
+class Solution
+{
 public:
-    void sortColors(vector<int>& nums) {
+    void sortColors(vector<int> &nums)
+    {
         int a[3]{0};
-        for(auto& i:nums){
+        for (auto &i : nums)
+        {
             a[i]++;
         }
-        int b=0;
-        for(int i=0;i<3;++i){
-            for(int j=0;j<a[i];++j){
-                nums[b+j]=i;
+        int b = 0;
+        for (int i = 0; i < 3; ++i)
+        {
+            for (int j = 0; j < a[i]; ++j)
+            {
+                nums[b + j] = i;
             }
-            b+=a[i];
+            b += a[i];
         }
     }
     //single traverse??
-    void sortColors2(vector<int>& nums) {
-        
-
+    //a little slow
+    void sortColors2(vector<int> &nums)
+    {
+        int p0 = 0, p1 = 0, p2 = nums.size() - 1;
+        while (p1 <= p2)
+        {
+            while (p2 > 0 && nums[p2] == 2)
+                p2--;
+            if (p1 > p2)
+                break;
+            if (nums[p1] == 2)
+            {
+                swap(nums[p1], nums[p2]);
+                if (nums[p1] == 0)
+                {
+                    swap(nums[p0], nums[p1]);
+                    p0++;
+                }
+                p2--;
+            }
+            else if (nums[p1] == 0)
+            {
+                swap(nums[p0], nums[p1]);
+                p0++;
+            }
+            p1++;
+        }
     }
-
 };
 
+int main()
+{
 
-
-
+    vector<int> a = {1, 1, 0, 0, 2, 2, 1, 0, 2};
+    //vector<int> a={2,0,1};
+    //vector<int> a={2};
+    //vector<int> a={1,2,0,0};
+    for (auto &i : a)
+    {
+        printf("%d ", i);
+    }
+    printf("\n");
+    Solution s;
+    s.sortColors2(a);
+    for (auto &i : a)
+    {
+        printf("%d ", i);
+    }
+}
