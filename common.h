@@ -167,3 +167,26 @@ struct ListNode
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
+
+inline ListNode *buildList(int *arr, int count)
+{
+    if(count<1)return nullptr;
+    ListNode *head, *p;
+    p=new ListNode(arr[0]);
+    head = p;
+    for (int i = 1; i < count; i++)
+    {
+        p->next = new ListNode(arr[i]);
+        p=p->next;
+    }
+    return head;
+}
+inline void printList(ListNode *head)
+{
+    ListNode* p=head;
+    while (p!= nullptr)
+    {
+        printf("%d ", p->val);
+        p= p->next;
+    }
+}
