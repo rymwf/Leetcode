@@ -24,26 +24,33 @@ Note:
     A[i][j] is a lowercase letter
 
 */
-#include"common.h"
+#include "common.h"
 
-class Solution {
+class Solution
+{
 public:
-    vector<string> commonChars(vector<string>& A) {
+    vector<string> commonChars(vector<string> &A)
+    {
         vector<string> res;
-        if(A.size()==0)return res;
-        unordered_map<char,std::pair<int,int>> map0;
-        for(int i=0;i<A[0].size();++i){
+        if (A.size() == 0)
+            return res;
+        unordered_map<char, std::pair<int, int>> map0;
+        for (int i = 0; i < A[0].size(); ++i)
+        {
             map0[A[0][i]].second++;
         }
-        for(int i=1;i<A.size();++i){
+        for (int i = 1; i < A.size(); ++i)
+        {
             for (auto &&c : A[i])
             {
-                if(map0.find(c)!=map0.end()){
+                if (map0.find(c) != map0.end())
+                {
                     map0[c].first++;
                 }
             }
-            for(auto it=map0.begin();it!=map0.end();){
-                it->second.second=min(it->second.first,it->second.second);
+            for (auto it = map0.begin(); it != map0.end();)
+            {
+                it->second.second = min(it->second.first, it->second.second);
                 if (it->second.second == 0)
                 {
                     char a = it->first;
@@ -51,19 +58,25 @@ public:
                     map0.erase(a);
                     continue;
                 }
-                it->second.first=0;
+                it->second.first = 0;
                 it++;
             }
         }
 
-        for (auto it = map0.begin(); it != map0.end();it++)
-            res.emplace_back(it->second.second,it->first);
+        for (auto it = map0.begin(); it != map0.end(); it++)
+        {
+            for (int i = 0; i < it->second.second; ++i)
+            {
+                res.emplace_back(1, it->first);
+            }
+        }
         return res;
-   }
+    }
 };
 
-int main(){
-    vector<string> A{"bellaa","label","roller"};
+int main()
+{
+    vector<string> A{"bellaa", "label", "roller"};
 
     Solution s;
     s.commonChars(A);
