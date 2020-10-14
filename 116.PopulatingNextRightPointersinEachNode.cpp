@@ -67,4 +67,23 @@ public:
         connect(root->right);
         return root;
     }
+
+    Node *connect(Node *root)
+    {
+        Node *p0 = root;
+        while (p0 != NULL && p0->left != NULL)
+        {
+            Node *p = p0;
+            while (p != NULL)
+            {
+                p->left->next = p->right;
+                if (p->next == NULL)
+                    break;
+                p->right->next = p->next->left;
+                p = p->next;
+            }
+            p0 = p0->left;
+        }
+        return root;
+    }
 };
