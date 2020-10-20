@@ -11,6 +11,7 @@
 #include<map>
 #include<bitset>
 #include<numeric>
+#include<iostream>
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)       \
