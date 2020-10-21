@@ -1,5 +1,6 @@
 
 #pragma once
+#include<array>
 #include <climits>
 #include <vector>
 #include <stack>
@@ -12,6 +13,7 @@
 #include<bitset>
 #include<numeric>
 #include<iostream>
+#include<set>
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)       \
