@@ -187,7 +187,7 @@ inline ListNode *buildList(int *arr, int count)
 inline void printList(ListNode *head)
 {
     ListNode* p=head;
-    while (p!= nullptr)
+    while (p)
     {
         printf("%d ", p->val);
         p= p->next;
