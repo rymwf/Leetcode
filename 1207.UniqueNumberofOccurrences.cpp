@@ -35,9 +35,10 @@ public:
             map0[i]++;
         unordered_set<int> set0;
         for(auto& i:map0){
-           if(set0.find(i.second)!=set0.end())return false;
+        //   if(set0.find(i.second)!=set0.end())return false;
            set0.emplace(i.second);
         }
-        return true;
+        //return true;
+        return set0.size()==map0.size();
     }
 };
