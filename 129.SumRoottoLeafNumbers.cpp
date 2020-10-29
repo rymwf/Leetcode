@@ -34,7 +34,7 @@ The root-to-leaf path 4->9->1 represents the number 491.
 The root-to-leaf path 4->0 represents the number 40.
 Therefore, sum = 495 + 491 + 40 = 1026.
 */
-#include"common.h"
+#include "common.h"
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -44,21 +44,27 @@ Therefore, sum = 495 + 491 + 40 = 1026.
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
-    int sumNumbers(TreeNode* root) {
-        if(root==nullptr)return 0;
-        int res=0;
-        static function<void(TreeNode*,int)> f=[&res](TreeNode* node,int num){
-            if(node->left==nullptr&&node->right==nullptr){
-                res+=num;
+    int sumNumbers(TreeNode *root)
+    {
+        if (root == nullptr)
+            return 0;
+        int res = 0;
+        static function<void(TreeNode *, int)> f = [&res](TreeNode *node, int num) {
+            num = num * 10 + node->val;
+            if (node->left == nullptr && node->right == nullptr)
+            {
+                res += num;
                 return;
             }
-            num=num*10+node->val;
-            if(node->left!=nullptr)f(node->left,num);
-            if(node->right!=nullptr)f(node->right,num);
+            if (node->left != nullptr)
+                f(node->left, num);
+            if (node->right != nullptr)
+                f(node->right, num);
         };
-        f(root,0);
+        f(root, 0);
         return res;
     }
 };
