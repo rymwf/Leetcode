@@ -38,7 +38,7 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-TreeNode *BuildBTLevelTraversal(int *arr, unsigned int num)
+TreeNode *BuildBTLevelTraversal(int *arr, int num)
 {
     if (num == 0)
         return nullptr;
@@ -94,9 +94,9 @@ inline void printTree(TreeNode *root)
     while (!myque.empty())
     {
         h++;
-        int l = myque.size();
+        size_t l = myque.size();
         vector<Para> tempvec;
-        for (int i = 0; i < l; ++i)
+        for (size_t i = 0; i < l; ++i)
         {
             tempvec.emplace_back(myque.front());
             if (myque.front().node->left != nullptr)
@@ -108,7 +108,6 @@ inline void printTree(TreeNode *root)
         temp.emplace_back(tempvec);
     }
     for_each(temp.begin(), temp.end(), [&h](vector<Para> &aa) {
-        int len = 1 << (h - aa[0].height - 1);
         int interval = 1 << (h - aa[0].height);
         {
             int k = interval;
@@ -116,7 +115,7 @@ inline void printTree(TreeNode *root)
                 printf(" ");
         }
         int l = 1 << (aa[0].height - 1);
-        for (int i = 0; i < aa.size(); ++i)
+        for (size_t i = 0; i < aa.size(); ++i)
         {
             int j = l;
             while (aa[i].index != j)
