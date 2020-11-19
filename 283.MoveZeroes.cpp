@@ -19,7 +19,7 @@ public:
         size_t p = 0;
         for(size_t i=0;i<nums.size();++i){
             if(nums[i]!=0){
-                if(i!=p)swap(nums[i],nums[p]);
+                nums[p]=nums[i];
                 p++;
             } 
         }
