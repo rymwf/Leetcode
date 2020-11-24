@@ -44,8 +44,6 @@ Constraints:
 #include"common.h"
 
 class Solution {
-public:
-    int findMinArrowShots(vector<vector<int>>& points) {
         if(points.size()==0)return 0;
         sort(points.begin(),points.end());
         for (auto &ele : points)
@@ -59,6 +57,8 @@ public:
                 ret++;
         }
         return ret + 1;
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
     }
 };
 
