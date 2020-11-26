@@ -14,6 +14,7 @@
 #include<numeric>
 #include<iostream>
 #include<set>
+#include <random>
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)       \
@@ -191,4 +192,31 @@ inline void printList(ListNode *head)
         printf("%d ", p->val);
         p= p->next;
     }
+}
+
+inline vector<int> buildNormalRandomVector(double mean,double stddev,int num){
+
+    std::random_device rd{};
+    std::mt19937 gen{rd()};
+ 
+    // values near the mean are the most likely
+    // standard deviation affects the dispersion of generated values from the mean
+    std::normal_distribution<> d{mean,stddev}; 
+    vector<int> ret(num); 
+    for(auto& i:ret)
+        i=d(gen);
+    return ret;
+}
+inline std::vector<int> buildUniformRandomVector(int start,int end,int num){
+
+    std::random_device rd{};
+    std::mt19937 gen{rd()};
+ 
+    // values near the mean are the most likely
+    // standard deviation affects the dispersion of generated values from the mean
+    std::uniform_int_distribution<> d{start,end}; 
+    std::vector<int> ret(num); 
+    for(auto& i:ret)
+        i=d(gen);
+    return ret;
 }
