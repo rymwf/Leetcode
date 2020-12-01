@@ -23,24 +23,27 @@ Note:
 class Solution {
 public:
     string reorganizeString(string S) {
-        vector<vector<int>> temp(26,vector<int>(2,0));;
+        int temp[26];
+        memset(temp,0,104);
         for(auto& c:S)
         {
-            temp[c-'a'][1]++;
+            temp[c-'a']++;
         }
+        int columnum=0,index=0;
         for(int i=0;i<26;++i){
-            temp[i][0]=i+'a';
+            if(temp[i]>columnum){
+                columnum=temp[i];
+                index=i;
+            }
         }
-        sort(temp.begin(),temp.end(),[](vector<int>&a, vector<int>&b){
-            return a[1]>b[1];
-        });
-        int columnum=temp[0][1];
         int len=S.size();
-        if(columnum<<1>len)return "";
+        if((columnum<<1)-1>len)return "";
+        swap(temp[0],temp[index]);
         string str;
-        for(auto& ele:temp){
-            str.insert(str.end(),ele[1],ele[0]);
+        for(int i=0;i<26;++i){
+            str.insert(str.end(),temp[i],i+'a');
         }
+        cout<<str<<endl;
         string ret;
         int rownum=len/columnum+1;
         for(int i=0;i<columnum;++i){
@@ -49,6 +52,11 @@ public:
                 if(index>=len)continue;
                 ret+=str[index];
             }
+        }
+        char tempc=index+'a';
+        for(auto& c:ret){
+            if(c=='a')c=tempc;
+            else if(c==tempc)c='a';
         }
         return ret;
     }
