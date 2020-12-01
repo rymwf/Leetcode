@@ -53,11 +53,11 @@ public:
             p=(l+r1)>>1;
         }
         l=mid;
-        mid = ((r - l + 1) >> 1) + l;
+        mid = (r + l + 1) >> 1;
         while(l<r){
             if(nums[mid]==target)l=mid;
             else r=mid-1;
-            mid = ((r - l + 1) >> 1) + l;
+            mid = (r + l + 1) >> 1;
         }
         return vector<int>{r1,l};
     }
