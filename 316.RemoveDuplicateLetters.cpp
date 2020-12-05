@@ -38,7 +38,6 @@ public:
             {
                 while (!ret.empty() && ret.back() >= s[i] && a[ret.back() - 'a'] > 0)
                 {
-//                    a[ret.back() - 'a']--;
                     ret.pop_back();
                 }
                 ret += s[i];

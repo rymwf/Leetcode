@@ -52,7 +52,6 @@ Constraints:
 class Solution {
 public:
     int videoStitching(vector<vector<int>>& clips, int T) {
-        if(clips.size()==0)return T==0?0:-1;
         sort(clips.begin(),clips.end());
         int l=clips[0][0],r=clips[0][1],res=1;
         if(l>0)return -1;

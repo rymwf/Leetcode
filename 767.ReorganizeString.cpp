@@ -43,7 +43,6 @@ public:
         for(int i=0;i<26;++i){
             str.insert(str.end(),temp[i],i+'a');
         }
-        cout<<str<<endl;
         string ret;
         int rownum=len/columnum+1;
         for(int i=0;i<columnum;++i){
