@@ -52,11 +52,13 @@ public:
     }
     char findTheDifference2(string s, string t) {
         char a=0;
-        for(auto c:s)
-            a ^= c;
-        for (auto c : t)
-            a ^= c;
-        return a;
+        int len=s.size();
+        for (int i = 0; i < len; ++i)
+        {
+            a ^= s[i];
+            a ^= t[i];
+        }
+        return a^t[len];
     }
 };
 
