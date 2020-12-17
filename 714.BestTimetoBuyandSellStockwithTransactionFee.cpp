@@ -42,7 +42,8 @@ public:
                 l1=l2;
                 r1=r2;
             }else{
-                if(prices[r1]<=prices[r2]){
+                if (prices[r1] < prices[r2])
+                {
                     r1=r2;
                 }
                 if (prices[l1] > prices[l2])
@@ -54,6 +55,14 @@ public:
         }
         ret += max(prices[r2] - prices[l2] - fee, 0);
         return ret;
+    }
+    int maxProfit2(vector<int>& prices, int fee) {
+        int n = prices.size();
+        int sell = 0, buy = -prices[0];
+        for (int i = 1; i < n; ++i) {
+            tie(sell, buy) = pair(max(sell, buy + prices[i] - fee), max(buy, sell - prices[i]));
+        }
+        return sell;
     }
 };
 
