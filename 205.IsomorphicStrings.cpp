@@ -29,9 +29,9 @@ public:
     bool isIsomorphic(string s, string t) {
         int len = s.size();
         if(len!=t.size())return false;
-        int f[255];
+        int f[128];
         memset(f,0xff,sizeof f);
-        bool a[255]{};
+        bool a[128]{};
         for(int i=0;i<len;++i)
         {
             if(f[t[i]]==-1&&!a[s[i]]){
