@@ -72,19 +72,24 @@ public:
                     matrix[j][i]+=matrix[j-1][i];
                 }
             }
-            temp=0;
-            for(int m=0;m<col;++m)
+
+            stack<int> stk;
+            stk.emplace(-1);
+            for (int k = 0; k < col; ++k)
             {
-                int min0=matrix[j][m];
-                ret=max(ret,min0);
-                if(m>0&&matrix[j][m]<=matrix[j][m-1])continue;;
-                for(int n=m+1;n<col&&matrix[j][n]!=0;++n)
+                while (stk.top() != -1 && matrix[j][stk.top()] >= matrix[j][k])
                 {
-                    if(matrix[j][n]<=min0){
-                       min0=matrix[j][n]; 
-                    }
-                    ret = max(ret, min0 * (n - m + 1));
+                    int a = stk.top();
+                    stk.pop();
+                    ret = max(ret, (k - stk.top() - 1) * matrix[j][a]);
                 }
+                stk.emplace(k);
+            }
+            while (stk.top() != -1)
+            {
+                int a = stk.top();
+                stk.pop();
+                ret = max(ret, (col - stk.top() - 1) * matrix[j][a]);
             }
         }
         return ret;
