@@ -39,18 +39,26 @@ public:
         }
         for (size_t i = 1, len = flowerbed.size(); i < len; ++i)
         {
-            if (flowerbed[i - 1] == 0)
+            //            if (flowerbed[i - 1] == 0)
+            //            {
+            //                if (flowerbed[i] == 0)
+            //                {
+            //                    flowerbed[i] = 1;
+            //                    ret++;
+            //                }
+            //            }
+            //            else if (flowerbed[i] == 1)
+            //            {
+            //                ret--;
+            //            }
+            int a = flowerbed[i - 1] + flowerbed[i];
+            if (a == 0)
             {
-                if (flowerbed[i] == 0)
-                {
-                    flowerbed[i] = 1;
-                    ret++;
-                }
+                flowerbed[i] = 1;
+                ret++;
             }
-            else if (flowerbed[i] == 1)
-            {
+            else if (a == 2)
                 ret--;
-            }
         }
         return ret >= n;
     }
