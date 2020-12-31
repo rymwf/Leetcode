@@ -62,13 +62,36 @@ public:
         }
         return ret >= n;
     }
+    bool canPlaceFlowers2(vector<int> &flowerbed, int n){
+        int count{};
+        int len = flowerbed.size() - 1, i = 0;
+        while(i < len)
+        {
+            if (flowerbed[i] == 1)
+            {
+                i += 2;
+            }
+            else if (flowerbed[i + 1] == 0)
+            {
+                count++;
+                i += 2;
+            }
+            else
+            {
+                i += 3;
+            }
+        }
+        if (i == len && flowerbed[len] == 0)
+            count++;
+        return count >= n;
+    }
 };
 
 int main()
 {
 
-    vector<int> a = {1, 0, 0, 0, 0, 1};
+    vector<int> a = {1, 0, 0, 0, 1, 0, 0};
     int n = 2;
     Solution s;
-    s.canPlaceFlowers(a, n);
+    s.canPlaceFlowers2(a, n);
 }
