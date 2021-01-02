@@ -68,7 +68,7 @@ public:
         ret.emplace_back(*tempset.rbegin());
         return ret;
     }
-    //exceed time limit
+    //
     vector<int> maxSlidingWindow2(vector<int> &nums, int k)
     {
         deque<int> dq;
