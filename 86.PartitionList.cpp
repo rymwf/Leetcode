@@ -56,22 +56,21 @@ public:
     {
         ListNode *small = new ListNode(0);
         ListNode *large = new ListNode(0);
-        ListNode *cur = head;
         ListNode *smallcur = small;
         ListNode *largecur = large;
-        while (cur)
+        while (head)
         {
-            if (cur->val >= x)
+            if (head->val >= x)
             {
-                largecur->next = cur;
+                largecur->next = head;
                 largecur = largecur->next;
             }
             else
             {
-                smallcur->next = cur;
+                smallcur->next = head;
                 smallcur = smallcur->next;
             }
-            cur = cur->next;
+            head = head->next;
         }
         smallcur->next = large->next;
         largecur->next = nullptr;
