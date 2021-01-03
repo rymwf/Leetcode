@@ -31,33 +31,60 @@ Constraints:
     1 <= prices.length <= 3 * 10 ^ 4
     0 <= prices[i] <= 10 ^ 4
 */
-#include"common.h"
+#include "common.h"
 
-class Solution {
+class Solution
+{
 public:
-    int maxProfit(vector<int>& prices) {
-        int ret=0;
-        int i=0;
-        while(++i<prices.size()){
-            while(i<prices.size()&&prices[i]<=prices[i-1])i++;
-            if(i==prices.size())break;
-            int pre=i-1;
-            while(i<prices.size()&&prices[i]>=prices[i-1])i++;
-            ret+=prices[i-1]-prices[pre];
+    int maxProfit(vector<int> &prices)
+    {
+        int ret = 0;
+        int i = 0;
+        while (++i < prices.size())
+        {
+            while (i < prices.size() && prices[i] <= prices[i - 1])
+                i++;
+            if (i == prices.size())
+                break;
+            int pre = i - 1;
+            while (i < prices.size() && prices[i] >= prices[i - 1])
+                i++;
+            ret += prices[i - 1] - prices[pre];
         }
         return ret;
     }
-    int maxProfit2(vector<int>& prices) {
-        int ret=0;
-        for(int i=1;i<prices.size();++i){
-            ret+=max(prices[i]-prices[i-1],0);
+    int maxProfit2(vector<int> &prices)
+    {
+        int ret = 0;
+        for (int i = 1; i < prices.size(); ++i)
+        {
+            ret += max(prices[i] - prices[i - 1], 0);
         }
         return ret;
+    }
+    //dynamic programming
+    int maxProfit3(vector<int> &prices)
+    {
+        int len = prices.size();
+        if (len < 2)
+            return 0;
+        
+        //cash in hand
+        vector<int> dp[2] = {vector<int>(len), vector<int>(len)};
+        dp[0][0] = 0;
+        dp[1][0] = -prices[0];
+        for (int i = 1; i < len; ++i)
+        {
+            dp[0][i] = max(dp[0][i - 1], dp[1][i - 1] + prices[i]);
+            dp[1][i] = max(dp[1][i - 1], dp[0][i - 1] - prices[i]);
+        }
+        return dp[0][len - 1];
     }
 };
-int main(){
-    vector<int> a={1,7,1,5,3,6,4,5};
+int main()
+{
+    vector<int> a = {1, 7, 1, 5, 3, 6, 4, 5};
     Solution s;
-    auto res=s.maxProfit2(a);
-    cout<<res;
+    auto res = s.maxProfit2(a);
+    cout << res;
 }
