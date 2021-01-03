@@ -62,14 +62,15 @@ public:
         int len=prices.size();
         if (len < 2)
             return 0;
+        //cash in hand
         vector<int> temp[2] = {vector<int>(len), vector<int>(len)};
-        temp[0][0] = 0;     //do not hold stock: 0: do nothing ,1: sell today 
-        temp[1][0] = prices[0]; //hold stock: 0: buy tody, 1: do nothing
+        temp[0][0] = 0;     //do not hold stock: 0: do nothing ,1: sell today
+        temp[1][0] = -prices[0]; //hold stock: 0: buy tody, 1: do nothing
         for(int i=1;i<len;++i)
         {
-            temp[0][i] = max(temp[0][i - 1], prices[i] - temp[1][i - 1]);
-            temp[1][i] = min(temp[1][i - 1], prices[i]);
-        //    cout<<temp[0][i]<<" "<<temp[1][i]<<endl;
+            temp[0][i] = max(temp[0][i - 1], prices[i] + temp[1][i - 1]);
+            temp[1][i] = max(temp[1][i - 1], -prices[i]);
+            //    cout<<temp[0][i]<<" "<<temp[1][i]<<endl;
         }
         return temp[0][len - 1];
     }
