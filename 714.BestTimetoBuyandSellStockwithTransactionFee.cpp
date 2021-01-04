@@ -64,6 +64,20 @@ public:
         }
         return sell;
     }
+    int maxProfit3(vector<int>& prices, int fee) {
+        int len=prices.size();
+        if (len < 2)
+            return 0;
+        vector<array<int, 2>> profit(len);
+        profit[0][0] = 0;
+        profit[0][1] = -prices[0];
+        for (int i = 1; i < len; ++i)
+        {
+            profit[i][0] = max(profit[i - 1][0], profit[i - 1][1] + prices[i] - fee);
+            profit[i][1] = max(profit[i - 1][1], profit[i - 1][0] - prices[i]);
+        }
+        return profit[len - 1][0];
+    }
 };
 
 int main()
