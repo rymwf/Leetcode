@@ -55,6 +55,8 @@ public:
 //    }
 
     //if reverse is true, start>end
+    //reverse true: profit, false: deficit
+    //buy: buy point, sell: sell point
     int helper(int start,int end,vector<int>& prices,bool reverse,int& buy,int& sell)
     {
         int ret=0;
@@ -133,6 +135,7 @@ public:
             if(flag){
                 int a = helper(targetit->first, targetit->second.end + 1, prices, false, minindex, maxindex);
                 ret -= a;
+                //repeat operation 
                 helper(targetit->second.end, targetit->first - 1, prices, true, minindex, maxindex);
                 ret += prices[maxindex] - prices[targetit->first];
                 ret += prices[targetit->second.end] - prices[minindex];
@@ -143,6 +146,7 @@ public:
             {
                 auto it=targetit;
                 it--;
+                //repeat operation
                 helper(it->second.end + 1, targetit->first + 1, prices, false, minindex, maxindex);
                 mymap[targetit->first].maxprofit=0;
                 mymap[minindex]=A{maxindex,0,0};
