@@ -28,7 +28,6 @@
 class Solution
 {
 public:
-    //TODO:dynamic programming
     int minimumOperations(string leaves)
     {
         int f[3] = {0};
@@ -101,6 +100,44 @@ public:
         }
         return res;
     }
+    int minimumOperations3(string leaves)
+    {
+        int len=leaves.size();
+        vector<array<int, 3>> dp(len);
+        dp[0][0] = int(leaves[0] == 'y'); //end with r
+        dp[0][1] = len;          //end with y
+        dp[0][2] = len;          //end with y
+
+        for (int i = 1, l = len - 2; i < l; ++i)
+        {
+            bool a = leaves[i] == 'r';
+            dp[i][0] = dp[i - 1][0] + !a;
+            dp[i][1] = min(dp[i - 1][0], dp[i - 1][1]) + a;
+            dp[i][2] = min(dp[i - 1][1], dp[i - 1][2]) + !a;
+        }
+
+        dp[len - 2][1] = min(dp[len - 3][0], dp[len - 3][1]) + int(leaves[len - 2] == 'r');
+        dp[len - 2][2] = min(dp[len - 3][2], dp[len - 3][1]) + int(leaves[len - 2] == 'y');
+
+        dp[len - 1][2] = min(dp[len - 2][2], dp[len - 2][1]) + int(leaves[len - 1] == 'y');
+
+        return dp[len-1][2];
+    }
+    int minimumOperations4(string leaves)
+    {
+        int len=leaves.size();
+        int a = int(leaves[0] == 'y'); //end with r
+        int b = len;          //end with y
+        int c = len;          //end with y
+        for (int i = 1; i < len; ++i)
+        {
+            bool d = leaves[i] == 'r';
+            c = min(b, c) + !d;
+            b = min(a, b) + d;
+            a += !d;
+        }
+        return c;
+    }
 };
 
 int main()
@@ -117,7 +154,7 @@ int main()
     for (string &l : leavas)
     {
         printf("==%s: ", l.c_str());
-        int res = s.minimumOperations(l);
+        int res = s.minimumOperations3(l);
         printf("%d\n", res);
     }
     return 0;
