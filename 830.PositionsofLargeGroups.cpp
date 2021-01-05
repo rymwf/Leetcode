@@ -60,5 +60,20 @@ public:
             ret.emplace_back(vector<int>{pre, len - 1});
         return ret;
     }
+    vector<vector<int>> largeGroupPositions(string s) {
+        vector<vector<int>> ret;
+        s += 'A';   //reallocate string memory, slow
+        int pre = 0, len = s.size();
+        for (int i = 1; i < len; ++i)
+        {
+            if (s[i] != s[pre])
+            {
+                if (i - pre >= 3)
+                    ret.emplace_back(vector<int>{pre, i - 1});
+                pre = i;
+            }
+        }
+        return ret;
+    }
 };
 
