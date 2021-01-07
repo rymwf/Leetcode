@@ -17,6 +17,8 @@
 #include<set>
 #include <random>
 #include <cstring>
+#include <list>
+#include <forward_list>
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)       \
@@ -222,3 +224,93 @@ inline std::vector<int> buildUniformRandomVector(int start,int end,int num){
         i=d(gen);
     return ret;
 }
+
+class equivClassList{
+public:
+    struct equivNode
+    {
+        int equivClass;
+        int size;
+        int next;
+    };
+    equivClassList(int n) : _classnum(n)
+    {
+        _nodes.resize(n + 1);
+        for (int i = 0; i <= n; ++i)
+        {
+            _nodes[i] = {i, 1};
+        }
+    };
+    void uniteEle(int elea, int eleb)
+    {
+        uniteClass(find(elea), find(eleb));
+    }
+
+    void uniteClass(int classa, int classb)
+    {
+        if (classa == classb)
+            return;
+        _classnum--;
+        if (_nodes[classa].size > _nodes[classb].size)
+            swap(classa, classb);
+        int i = classa;
+        while (_nodes[i].next)
+        {
+            _nodes[i].equivClass = classb;
+            i = _nodes[i].next;
+        }
+        _nodes[i].equivClass = classb;
+        //combine two  lists
+        _nodes[classb].size += _nodes[classa].size;
+        _nodes[i].next = _nodes[classb].next;
+        _nodes[classb].next = classa;
+    }
+
+    int find(int ele){
+        return _nodes[ele + 1].equivClass;
+    }
+    size_t getClassNum(){
+        return _classnum;
+    }
+
+private:
+    vector<equivNode> _nodes;
+    size_t _classnum;
+};
+
+class equivClassTree{
+    vector<int> _parent;
+    size_t _classNum;
+public:
+    equivClassTree(int n) : _parent(n + 1), _classNum(n)
+    {
+    }
+    int find(int ele){
+        ele++;
+        int root=ele;
+        while (_parent[root] != 0)
+            root = _parent[root];
+        //path compaction
+        while (_parent[ele] != 0)
+        {
+            int a = _parent[ele];
+            _parent[ele] = root;
+            ele = a;
+        }
+        return root;
+    }
+    void uniteEle(int elea,int eleb) 
+    {
+        uniteCLass(find(elea), find(eleb));
+    }
+    void uniteCLass(int classa,int classb)
+    {
+        if(classa==classb)return;
+        _classNum--;
+        _parent[classb] = classa;
+    }
+    size_t getClassNum(){
+        return _classNum;
+    }
+};
+
