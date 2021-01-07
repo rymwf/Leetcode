@@ -1,7 +1,7 @@
 
 #pragma once
-#include<string>
-#include<array>
+#include <string>
+#include <array>
 #include <climits>
 #include <vector>
 #include <stack>
@@ -10,11 +10,11 @@
 #include <functional>
 #include <unordered_set>
 #include <unordered_map>
-#include<map>
-#include<bitset>
-#include<numeric>
-#include<iostream>
-#include<set>
+#include <map>
+#include <bitset>
+#include <numeric>
+#include <iostream>
+#include <set>
 #include <random>
 #include <cstring>
 #include <list>
@@ -177,54 +177,57 @@ struct ListNode
 
 inline ListNode *buildList(int *arr, int count)
 {
-    if(count<1)return nullptr;
+    if (count < 1)
+        return nullptr;
     ListNode *head, *p;
-    p=new ListNode(arr[0]);
+    p = new ListNode(arr[0]);
     head = p;
     for (int i = 1; i < count; i++)
     {
         p->next = new ListNode(arr[i]);
-        p=p->next;
+        p = p->next;
     }
     return head;
 }
 inline void printList(ListNode *head)
 {
-    ListNode* p=head;
+    ListNode *p = head;
     while (p)
     {
         printf("%d ", p->val);
-        p= p->next;
+        p = p->next;
     }
 }
 
-inline vector<int> buildNormalRandomVector(double mean,double stddev,int num){
+inline vector<int> buildNormalRandomVector(double mean, double stddev, int num)
+{
 
     std::random_device rd{};
     std::mt19937 gen{rd()};
- 
+
     // values near the mean are the most likely
     // standard deviation affects the dispersion of generated values from the mean
-    std::normal_distribution<> d{mean,stddev}; 
-    vector<int> ret(num); 
-    for(auto& i:ret)
-        i=d(gen);
+    std::normal_distribution<> d{mean, stddev};
+    vector<int> ret(num);
+    for (auto &i : ret)
+        i = d(gen);
     return ret;
 }
-inline std::vector<int> buildUniformRandomVector(int start,int end,int num){
+inline std::vector<int> buildUniformRandomVector(int start, int end, int num)
+{
 
     std::random_device rd{};
     std::mt19937 gen{rd()};
- 
+
     // values near the mean are the most likely
     // standard deviation affects the dispersion of generated values from the mean
-    std::uniform_int_distribution<> d{start,end}; 
-    std::vector<int> ret(num); 
-    for(auto& i:ret)
-        i=d(gen);
+    std::uniform_int_distribution<> d{start, end};
+    std::vector<int> ret(num);
+    for (auto &i : ret)
+        i = d(gen);
     return ret;
 }
-
+#if 0
 class equivClassList{
 public:
     struct equivNode
@@ -277,17 +280,21 @@ private:
     vector<equivNode> _nodes;
     size_t _classnum;
 };
+#endif
 
-class equivClassTree{
+class equivClassTree
+{
     vector<int> _parent;
     size_t _classNum;
+
 public:
     equivClassTree(int n) : _parent(n + 1), _classNum(n)
     {
     }
-    int find(int ele){
+    int find(int ele)
+    {
         ele++;
-        int root=ele;
+        int root = ele;
         while (_parent[root] != 0)
             root = _parent[root];
         //path compaction
@@ -299,18 +306,78 @@ public:
         }
         return root;
     }
-    void uniteEle(int elea,int eleb) 
+    void uniteEle(int elea, int eleb)
     {
         uniteCLass(find(elea), find(eleb));
     }
-    void uniteCLass(int classa,int classb)
+    void uniteCLass(int classa, int classb)
     {
-        if(classa==classb)return;
+        if (classa == classb)
+            return;
         _classNum--;
         _parent[classb] = classa;
     }
-    size_t getClassNum(){
+    size_t getClassNum()
+    {
         return _classNum;
     }
 };
 
+#if 0
+class equivClassTree{
+public:
+    struct equivNode{
+        bool isRoot{true};
+        int parent{1}; //if root is true, stand for the height of the tree, otherwise the parent node
+    };
+
+    equivClassTree(int n) : _nodes(n + 1), _classNum(n)
+    {
+    }
+    int find(int ele){
+        ele++;
+        int root=ele;
+        while (!_nodes[root].isRoot)
+            root = _nodes[root].parent;
+        //path compaction
+        while (!_nodes[root].isRoot)
+        {
+            int a = _nodes[ele].parent;
+            _nodes[ele].parent = root;
+            ele = a;
+        }
+        return root;
+    }
+    void uniteEle(int elea,int eleb) 
+    {
+        uniteRoot(find(elea), find(eleb));
+    }
+    /**
+     * @brief use tree height 
+     * 
+     * @param classa 
+     * @param classb 
+     */
+    void uniteRoot(int roota,int rootb)
+    {
+        if (roota == rootb)
+            return;
+        _classNum--;
+        if (_nodes[roota].parent > _nodes[rootb].parent)
+        {
+            _nodes[rootb] = {false, roota};
+        }
+        else
+        {
+            _nodes[roota] = {false, rootb};
+        }
+    }
+    size_t getClassNum(){
+        return _classNum;
+    }
+
+private:
+    vector<equivNode> _nodes;
+    size_t _classNum;
+};
+#endif
