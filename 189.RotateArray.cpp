@@ -147,6 +147,7 @@ public:
         k = k % len;
         if (k == 0)
             return;
+#if 0
         auto reversearray = [](vector<int> &nums, int l, int r) {
             while (l < r)
                 swap(nums[l++], nums[r--]);
@@ -154,6 +155,11 @@ public:
         reversearray(nums, 0, len - 1);
         reversearray(nums, 0, k - 1);
         reversearray(nums, k, len - 1);
+#else
+        std::reverse(nums.begin(), nums.end());
+        std::reverse(nums.begin(), nums.begin() + k);
+        std::reverse(nums.begin() + k, nums.end());
+#endif
     }
 };
 
