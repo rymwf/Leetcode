@@ -118,6 +118,52 @@ public:
         }
         return dp[len - 1][l - 1];
     }
+    int maxProfit3(vector<int> &prices)
+    {
+        int len = prices.size();
+        if (len < 2)
+            return 0;
+#if 0
+        constexpr int k = 2;
+        vector<array<int, 2 * k>> profit(len);
+        profit[0][0] = 0;
+        profit[0][1] = -prices[0];
+        profit[0][2] = 0;
+        profit[0][3] = -prices[0];
+        profit[0][4] = 0;
+        for (int i = 1; i < len; ++i)
+        {
+            profit[i][0] = 0;
+            profit[i][1] = max(profit[i - 1][1], -prices[i]);
+            profit[i][2] = max(profit[i - 1][2], profit[i - 1][1] + prices[i]);
+            profit[i][3] = max(profit[i - 1][3], profit[i - 1][2] - prices[i]);
+            profit[i][4] = max(profit[i - 1][4], profit[i - 1][3] + prices[i]);
+        }
+        return profit[len - 1][4];
+#else
+        int profit[4]{-prices[0], 0, -prices[0], 0};
+        for (int i = 1; i < len; ++i)
+        {
+            profit[3] = max(profit[3], profit[2] + prices[i]);
+            profit[2] = max(profit[2], profit[1] - prices[i]);
+            profit[1] = max(profit[1], profit[0] + prices[i]);
+            profit[0] = max(profit[0], -prices[i]);
+        }
+        return profit[3];
+#endif
+    }
+    int maxProfit4(vector<int> &prices)
+    {
+        int profit[4]{INT_MIN, 0, INT_MIN, 0};
+        for (auto e : prices)
+        {
+            profit[3] = max(profit[3], profit[2] + e);
+            profit[2] = max(profit[2], profit[1] - e);
+            profit[1] = max(profit[1], profit[0] + e);
+            profit[0] = max(profit[0], -e);
+        }
+        return profit[3];
+    }
 };
 int main()
 {
