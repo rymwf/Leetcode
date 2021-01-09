@@ -166,11 +166,9 @@ public:
     }
     int maxProfit5(vector<int> &prices)
     {
-        constexpr int k = 2;
-        int buy[k + 1];
-        for (int i = 0; i <= k; ++i)
-            buy[i] = INT_MIN;
-        int sell[k + 1]{};
+        int k = 2;
+        vector<int> buy(k + 1, INT_MIN);
+        vector<int> sell(k + 1);
         for (auto e : prices)
         {
             for (int i = k; i > 0; --i)
