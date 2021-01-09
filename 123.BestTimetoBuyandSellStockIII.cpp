@@ -164,10 +164,30 @@ public:
         }
         return profit[3];
     }
+    int maxProfit5(vector<int> &prices)
+    {
+        constexpr int k = 2;
+        int buy[k + 1];
+        for (int i = 0; i <= k; ++i)
+            buy[i] = INT_MIN;
+        int sell[k + 1]{};
+        for (auto e : prices)
+        {
+            for (int i = k; i > 0; --i)
+            {
+                sell[i] = max(sell[i], buy[i] + e);
+                buy[i] = max(buy[i], sell[i - 1] - e);
+            }
+        }
+        return sell[k];
+    }
 };
 int main()
 {
+    int b[4];
+    cout<<sizeof b;
+
     vector<int> a = {3, 3, 5, 3, 4, 2, 8, 0, 6, 4};
     Solution s;
-    cout<<s.maxProfit2(a);
+    cout<<s.maxProfit5(a);
 }
