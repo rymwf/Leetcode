@@ -42,38 +42,115 @@ Output:
 class Solution
 {
 public:
-    //TODO: cannot pass last case  listed below
     vector<string> wordBreak(string s, vector<string> &wordDict)
     {
-        vector<string> ret;
-        vector<vector<int>> flags(1, vector<int>(1, 0));
-        unordered_set<string> myset;
-        for (auto &i : wordDict)
-            myset.emplace(i);
-        for (int i = 0; i <= s.size(); ++i)
+        int len = s.size();
+        unordered_set<string> dict;
+        vector<vector<int>> state(len + 1);
+        unordered_set<int> wordlens;
+        for (auto &str : wordDict)
         {
-            int l = flags.size();
-            for (int j = 0; j < l; ++j)
+            dict.emplace(str);
+            wordlens.emplace(str.size());
+        }
+        state[len] = {len};
+        for (int i = len - 1; i >= 0; --i)
+        {
+            for (auto it = wordlens.begin(); it != wordlens.end(); ++it)
             {
-                if (myset.count(s.substr(flags[j].back(), i - flags[j].back())))
+                int l = i + *it;
+                if (l > len)
+                    continue;
+                if (!state[l].empty())
                 {
-                    flags.emplace_back(flags[j]);
-                    flags.back().emplace_back(i);
+                    string substr = s.substr(i, *it);
+                    if (dict.find(substr) != dict.end())
+                    {
+                        state[i].emplace_back(l);
+        //                cout << i << ": " << l << endl;
+                    }
                 }
             }
         }
-        for (int i = flags.size() - 1; i >= 0; --i)
+        vector<string> ret;
+        if (!state[0].empty())
         {
-            if (flags[i].back() != s.size())
-                break;
-            std::string temp;
-            for (int j = 1; j < flags[i].size(); ++j)
+            string tempstrs;
+            helper(ret, s, state, tempstrs, 0);
+        }
+        return ret;
+    }
+
+    void helper(
+        vector<string> &ret,
+        string &s,
+        vector<vector<int>> &state,
+        string &tempstr,
+        size_t index)
+    {
+        if (index == s.size())
+        {
+            ret.emplace_back(tempstr.substr(0, tempstr.size() - 1));
+            return;
+        }
+        for (auto e : state[index])
+        {
+            int l = e - index;
+            string substr = s.substr(index, l);
+            tempstr += substr + " ";
+            helper(ret, s, state, tempstr, e);
+            tempstr.erase(tempstr.size() - l - 1, l + 1);
+        }
+    }
+    vector<string> wordBreak2(string s, vector<string> &wordDict)
+    {
+        int len = s.size();
+        unordered_set<string> dict;
+        vector<vector<int>> state(len + 1);
+        unordered_set<int> wordlens;
+        for (auto &str : wordDict)
+        {
+            dict.emplace(str);
+            wordlens.emplace(str.size());
+        }
+        state[len] = {len};
+        for (int i = len - 1; i >= 0; --i)
+        {
+            for (auto it = wordlens.begin(); it != wordlens.end(); ++it)
             {
-                temp += s.substr(flags[i][j - 1], flags[i][j] - flags[i][j - 1]);
-                temp += " ";
+                int l = i + *it;
+                if (l > len)
+                    continue;
+                if (!state[l].empty())
+                {
+                    string substr = s.substr(i, *it);
+                    if (dict.find(substr) != dict.end())
+                    {
+                        state[i].emplace_back(l);
+                    }
+                }
             }
-            temp.erase(temp.size() - 1);
-            ret.emplace_back(temp);
+        }
+        vector<string> ret;
+        if (!state[0].empty())
+        {
+            string tempstr;
+            static function<void(size_t)> helper2 = [&](size_t index) {
+                if (index == len)
+                {
+                    ret.emplace_back(tempstr.substr(0, tempstr.size() - 1));
+                    return;
+                }
+                for (auto e : state[index])
+                {
+                    int l = e - index;
+                    string substr = s.substr(index, l);
+                    tempstr += substr + " ";
+                    helper2(e);
+                    tempstr.erase(tempstr.size() - l - 1, l + 1);
+                }
+            };
+            helper2(0);
         }
         return ret;
     }
@@ -81,14 +158,14 @@ public:
 
 int main()
 {
-    //string s = "pineapplepenapple";
-    //vector<string> wordDict = {"apple", "pen", "applepen", "pine", "pineapple"};
+    string s = "pineapplepenapple";
+    vector<string> wordDict = {"apple", "pen", "applepen", "pine", "pineapple"};
     //string s = "catsanddog";
     //vector<string> wordDict = {"cat", "cats", "and", "sand", "dog"};
     //string s = "catsandog";
     //vector<string> wordDict = {"cats", "dog", "sand", "and", "cat"};
-    string s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-    vector<string> wordDict = {"a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"};
+    //    string s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    //    vector<string> wordDict = {"a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"};
 
     Solution S;
     auto res = S.wordBreak(s, wordDict);
