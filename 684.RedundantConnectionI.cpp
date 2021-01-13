@@ -29,54 +29,78 @@ Update (2017-09-26):
 We have overhauled the problem description + test cases and specified clearly the graph is an undirected graph. For the directed graph follow up please see Redundant Connection II). We apologize for any inconvenience caused.
 
 */
-//TODO: ���鼯
+//TODO:
 #include "common.h"
-class Solution {
+class Solution
+{
 public:
-    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
-        stack<int> stk;
-        unordered_set<int> myset;
-        while (myset.size()!=edges.size()*2)
+    vector<int> findRedundantConnection(vector<vector<int>> &edges)
+    {
+        int maxvertex = 0;
+        for (auto &v : edges)
+            for (auto e : v)
+                maxvertex = max(maxvertex, e);
+        vector<vector<int>> graph(maxvertex + 1);
+        for (auto &v : edges)
         {
-            
-        for (int i = 0; i < edges.size(); ++i) {
-            if (myset.find(i) != myset.end())continue;
-            
-            if (myset.find(edges[i][0]) != myset.end() &&
-                myset.find(edges[i][1]) != myset.end())
-                stk.emplace(i);
-            else
+            graph[v[0]].emplace_back(v[1]);
+            graph[v[1]].emplace_back(v[0]);
+        }
+#ifdef MYLOCAL
+        for (int i = 1; i <= maxvertex; ++i)
+        {
+            cout << endl
+                 << i << ":";
+            for (auto e : graph[i])
+                cout << e << " ";
+        }
+#endif
+        unordered_set<int> tempset;
+        vector<int> visited(maxvertex + 1);
+        int foundvertex = -1;
+
+        bool flag = true;
+        bool isinclude = false;
+        static function<void(int, int)> f = [&](int v0, int v1) {
+            if (visited[v1] && flag)
             {
-                myset.emplace(edges[i][0]);
-                myset.emplace(edges[i][1]);
+                foundvertex = v1;
+                flag = false;
+                isinclude = true;
             }
-        
+            visited[v1] = true;
+            for (auto e : graph[v1])
+            {
+                if (e != v0 && flag)
+                    f(v1, e);
+            }
+            if (isinclude)
+            {
+                tempset.emplace(v1);
+                isinclude = v0 != foundvertex;
+            }
+        };
+        f(0, 1);
+//        dbgvec(tempset);
+        for (int i = edges.size() - 1; i >= 0; --i)
+        {
+            if (tempset.find(edges[i][0]) != tempset.end() &&
+                tempset.find(edges[i][1]) != tempset.end())
+                return edges[i];
         }
-        }
-        if (stk.empty())return vector<int>();
-        return edges[stk.top()];
+        vector<int> ret(2);
+        return ret;
     }
 };
 
-int main() {
-    int a[][2]=   {{2, 1}, {3, 4}, {4, 2}, {1, 4}};
-    vector<vector<int>>  b;
-    int sizex = sizeof(a) / sizeof(a[0]);
-    int sizey = 2;
-    b.resize(sizex);
-    vector<int> temp;
-    for (int i = 0; i < sizex; ++i) {
-        temp.clear();
-        for (int j = 0; j < sizey; ++j) {
-            temp.emplace_back(a[i][j]);
-        }
-        b[i] = temp;
-    }
-
+int main()
+{
+    //    vvi a = {{1,2}, {2,3}, {3,4}, {1,4}, {1,5}};
+    //vvi a ={{1,4},{3,4},{1,3},{1,2},{4,5}};
+    vvi a{{16, 25}, {7, 9}, {3, 24}, {10, 20}, {15, 24}, {2, 8}, {19, 21}, {2, 15}, {13, 20}, {5, 21}, {7, 11}, {6, 23}, {7, 16}, {1, 8}, {17, 20}, {4, 19}, {11, 22}, {5, 11}, {1, 16}, {14, 20}, {1, 4}, {22, 23}, {12, 20}, {15, 18}, {12, 16}};
     Solution s;
-    vector<int>res=s.findRedundantConnection(b);
-    printf("%d %d",res[0],res[1]);
+    vector<int> res = s.findRedundantConnection(a);
+
+    printf("\n%d %d", res[0], res[1]);
     return 0;
 }
-
-
