@@ -29,7 +29,6 @@ Update (2017-09-26):
 We have overhauled the problem description + test cases and specified clearly the graph is an undirected graph. For the directed graph follow up please see Redundant Connection II). We apologize for any inconvenience caused.
 
 */
-//TODO:
 #include "common.h"
 class Solution
 {
@@ -91,6 +90,50 @@ public:
         vector<int> ret(2);
         return ret;
     }
+    vector<int> findRedundantConnection2(vector<vector<int>> &edges)
+    {
+        int len=edges.size();
+        UnionFindTree uf(len + 1);
+        for(auto& v:edges)
+        {
+            int a = uf.find(v[0]);
+            int b = uf.find(v[1]);
+            if (a != b)
+                uf.uniteCLass(a, b);
+            else
+                return v;
+        }
+        return vector<int>();
+    }
+    vector<int> findRedundantConnection3(vector<vector<int>> &edges)
+    {
+        int len = edges.size();
+        vector<int> parent(len + 2);
+        auto findroot = [&](int e) {
+            int root=e;
+            while (parent[root] != 0)
+                root = parent[root];
+            while(parent[e]!=root)
+            {
+                e=parent[e];
+                parent[e]=root;
+            }
+            return root;
+        };
+        auto unite = [&](int a, int b) {
+            parent[b] = a;
+        };
+        for(auto& v:edges)
+        {
+            int a = findroot(v[0]);
+            int b = findroot(v[1]);
+            if (a != b)
+                unite(a, b);
+            else
+                return v;
+        }
+        return vector<int>();
+    }
 };
 
 int main()
@@ -99,7 +142,7 @@ int main()
     //vvi a ={{1,4},{3,4},{1,3},{1,2},{4,5}};
     vvi a{{16, 25}, {7, 9}, {3, 24}, {10, 20}, {15, 24}, {2, 8}, {19, 21}, {2, 15}, {13, 20}, {5, 21}, {7, 11}, {6, 23}, {7, 16}, {1, 8}, {17, 20}, {4, 19}, {11, 22}, {5, 11}, {1, 16}, {14, 20}, {1, 4}, {22, 23}, {12, 20}, {15, 18}, {12, 16}};
     Solution s;
-    vector<int> res = s.findRedundantConnection(a);
+    vector<int> res = s.findRedundantConnection3(a);
 
     printf("\n%d %d", res[0], res[1]);
     return 0;
