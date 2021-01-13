@@ -38,16 +38,19 @@ class Solution {
 public:
     vector<bool> prefixesDivBy5(vector<int>& A) {
         int len = A.size();
-        vector<bool> ret(len);
+        vector<bool> ret;
+        ret.reserve(len);
         int remainder = 0;
-        for (int i = 0; i < len; ++i)
+        for (auto i : A)
         {
-            //            remainder <<= 1;
-            //            remainder += A[i];
-            //            remainder %= 5;
-            remainder = ((remainder << 1) + A[i]) % 5;
+            remainder <<= 1;
+            remainder += i;
+            remainder %= 5;
+            //    remainder = ((remainder << 1) + A[i]) % 5;
             if (remainder == 0)
-                ret[i] = true;
+                ret.emplace_back(true);
+            else
+                ret.emplace_back(false);
         }
         return ret;
     }
