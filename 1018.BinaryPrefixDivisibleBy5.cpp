@@ -42,15 +42,21 @@ public:
         int remainder = 0;
         for (auto i : A)
         {
-            remainder <<= 1;
-            remainder += i;
-            remainder %= 5;
-            //    remainder = ((remainder << 1) + A[i]) % 5;
-            if (remainder == 0)
-                ret.emplace_back(true);
-            else
-                ret.emplace_back(false);
+            //remainder <<= 1;
+            //remainder += i;
+            //remainder %= 5;
+            remainder = ((remainder << 1) + i) % 5;
+            ret.emplace_back(remainder == 0);
         }
         return ret;
     }
 };
+int main(){
+
+    vector<int> A(1000000, 1);
+    Solution s;
+    MEASURE_TIME_BEGIN(0)
+    s.prefixesDivBy5(A);
+    MEASURE_TIME_END
+    
+}
