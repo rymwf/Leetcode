@@ -19,6 +19,15 @@
 #include <cstring>
 #include <list>
 #include <forward_list>
+#include <chrono>
+
+#define MYLOCAL 1
+#define MEASURE_TIME_BEGIN                       \
+    cout << __FILE__ << " " << __LINE__ <<": start measure time:"<< endl; \
+    auto start = std::chrono::steady_clock::now();
+#define MEASURE_TIME_END                                                                                                \
+    auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count(); \
+    std::cout << "elapsed time(ms):" << dur << std::endl;
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)       \
@@ -31,7 +40,30 @@
         (byte & 0x02 ? '1' : '0'), \
         (byte & 0x01 ? '1' : '0')
 
+//#define dbg(x) cout << #x << " = " << (x) << " (L" << __LINE__ << ") " << __FILE__ << endl
+#define dbg(x) cout << #x << " = " << (x) << " (L" << __LINE__ << ") " << endl
+#define dbgvec(arr)              \
+    cout << #arr << ":" << endl; \
+    for (auto &e : arr)          \
+        cout << e << " ";        \
+    cout << endl
+
+#define dbgmap(arr)                                  \
+    cout << #arr << ":" << endl;                     \
+    for (auto &it : arr)                             \
+        cout << it.first << " " << it.second << " "; \
+    cout << endl
+
 using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+
+using vs = vector<string>;
+using vss = vector<vector<string>>;
+
 //Definition for a binary tree node.
 struct TreeNode
 {
@@ -227,8 +259,8 @@ inline std::vector<int> buildUniformRandomVector(int start, int end, int num)
         i = d(gen);
     return ret;
 }
-#if 0
-class equivClassList{
+#if 1
+class UnionFindList{
 public:
     struct equivNode
     {
@@ -236,7 +268,7 @@ public:
         int size;
         int next;
     };
-    equivClassList(int n) : _classnum(n)
+    UnionFindList(int n) : _classnum(n)
     {
         _nodes.resize(n + 1);
         for (int i = 0; i <= n; ++i)
@@ -282,18 +314,18 @@ private:
 };
 #endif
 
-class equivClassTree
+class UnionFindTree
 {
     vector<int> _parent;
     size_t _classNum;
 
 public:
-    equivClassTree(int n) : _parent(n + 1), _classNum(n)
+    UnionFindTree(int n) : _parent(n), _classNum(n)
     {
     }
     int find(int ele)
     {
-        ele++;
+//        ele++;
         int root = ele;
         while (_parent[root] != 0)
             root = _parent[root];
