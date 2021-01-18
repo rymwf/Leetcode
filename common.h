@@ -20,6 +20,7 @@
 #include <list>
 #include <forward_list>
 #include <chrono>
+#include <optional>
 
 #define MYLOCAL 1
 #define MEASURE_TIME_BEGIN                       \
@@ -62,7 +63,7 @@ typedef vector<int> vi;
 typedef vector<vi> vvi;
 
 using vs = vector<string>;
-using vss = vector<vector<string>>;
+using vvs = vector<vector<string>>;
 
 //Definition for a binary tree node.
 struct TreeNode
