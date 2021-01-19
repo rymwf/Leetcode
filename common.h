@@ -43,10 +43,10 @@
 
 //#define dbg(x) cout << #x << " = " << (x) << " (L" << __LINE__ << ") " << __FILE__ << endl
 #define dbg(x) cout << #x << " = " << (x) << " (L" << __LINE__ << ") " << endl
-#define dbgvec(arr)              \
-    cout << #arr << ":" << endl; \
-    for (auto &e : arr)          \
-        cout << e << " ";        \
+#define dbgvec(arr)       \
+    cout << #arr << ": "; \
+    for (auto &e : arr)   \
+        cout << e << " "; \
     cout << endl
 
 #define dbgmap(arr)                                  \
