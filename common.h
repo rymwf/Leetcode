@@ -43,17 +43,20 @@
 
 //#define dbg(x) cout << #x << " = " << (x) << " (L" << __LINE__ << ") " << __FILE__ << endl
 #define dbg(x) cout << #x << " = " << (x) << " (L" << __LINE__ << ") " << endl
-#define dbgvec(arr)       \
-    cout << #arr << ": "; \
-    for (auto &e : arr)   \
-        cout << e << " "; \
-    cout << endl
 
-#define dbgmap(arr)                                  \
-    cout << #arr << ":" << endl;                     \
-    for (auto &it : arr)                             \
-        cout << it.first << " " << it.second << " "; \
+#define dbgvec(arr)           \
+    {                         \
+        cout << #arr << ": "; \
+        for (auto e : arr)   \
+            cout << e << " "; \
+    }                         \
     cout << endl
+#define dbgmap(arr)                                              \
+    {                                                            \
+        cout << #arr << ":" << endl;                             \
+        for (auto it : arr)                                     \
+            cout << it.first << " " << it.second << " " << endl; \
+    }
 
 using namespace std;
 
@@ -414,3 +417,42 @@ private:
     size_t _classNum;
 };
 #endif
+// 并查集模板
+class UnionFind {
+public:
+    int n;
+    int setCount;
+    vector<int> parent;
+    vector<int> size;
+    // 当前连通分量数目
+    
+public:
+    UnionFind(int _n): n(_n), setCount(_n), parent(_n), size(_n, 1) {
+        iota(parent.begin(), parent.end(), 0);
+    }
+    
+    int findset(int x) {
+        return parent[x] == x ? x : parent[x] = findset(parent[x]);
+    }
+    
+    bool unite(int x, int y) {
+        x = findset(x);
+        y = findset(y);
+        if (x == y) {
+            return false;
+        }
+        if (size[x] < size[y]) {
+            swap(x, y);
+        }
+        parent[y] = x;
+        size[x] += size[y];
+        --setCount;
+        return true;
+    }
+    
+    bool connected(int x, int y) {
+        x = findset(x);
+        y = findset(y);
+        return x == y;
+    }
+};
