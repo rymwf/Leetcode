@@ -40,33 +40,27 @@ Note:
     It is guaranteed that Alice and Bob have different total amounts of candy.
     It is guaranteed there exists an answer.
 */
-#include"common.h"
+#include "common.h"
 
-class Solution {
+class Solution
+{
 public:
-    vector<int> fairCandySwap(vector<int>& A, vector<int>& B) {
+    vector<int> fairCandySwap(vector<int> &A, vector<int> &B)
+    {
         auto diff = reduce(A.begin(), A.end()) - reduce(B.begin(), B.end());
         //auto diff = reduce(execution::par, A.begin(), A.end()) - reduce(execution::par, B.begin(), B.end());
-        vector<int>* p0=&A,*p1=&B;
-        bool flag = p0->size() < p1->size();
-        if (flag)
-        {
-            swap(p0, p1);
-            diff = -diff;
-        }
-        unordered_set<int> s(p0->begin(), p0->end());
-        for (auto i : *p1)
-            if (s.find(i + diff / 2) != s.end())
-            {
-                return flag ? vector<int>{i, i + diff / 2} : vector<int>{i + diff / 2, i};
-            }
+        unordered_set<int> s(A.begin(), A.end());
+        for (auto i : B)
+            if (s.find(i + (diff >> 1)) != s.end())
+                return {i + (diff >> 1), i};
         return {};
     }
-    vector<int> fairCandySwap(vector<int>& A, vector<int>& B) {
+    vector<int> fairCandySwap(vector<int> &A, vector<int> &B)
+    {
         auto diff = reduce(A.begin(), A.end()) - reduce(B.begin(), B.end());
         //auto diff = reduce(execution::par, A.begin(), A.end()) - reduce(execution::par, B.begin(), B.end());
         vector<int> *p0 = &A, *p1 = &B;
-        bool flag = diff < 0;
+        bool flag = p0->size() < p1->size();
         if (flag)
         {
             swap(p0, p1);
@@ -81,4 +75,3 @@ public:
         return {};
     }
 };
-
