@@ -40,57 +40,54 @@ Constraints:
 class Solution
 {
 public:
-    int longestCommonSubsequence(string text1, string text2)
-    {
-        int len1=text1.size();
-        int len2=text2.size();
-
-        #if 0
-        vector<vector<int>> temp(len1+1,vector<int>(len2+1,0));
-        #else
-        int temp[len1+1][len2+1];
-        for(int i=0;i<=len1;++i){
-            temp[i][0]=0;
-        };
-        for(int i=0;i<=len2;++i){
-            temp[0][i]=0;
-        };
-        #endif
-
-        for(int i=1;i<=len1;++i){
-            for(int j=1;j<=len2;++j){
-                if(text1[i-1]==text2[j-1]){
-                    temp[i][j]=temp[i-1][j-1]+1;
-                }else
-                    temp[i][j] = max(temp[i - 1][j], temp[i][j - 1]);
-            }
-        }
-        for(int i=1,len1=text1.size();i<=len1;++i){
-            printf("\n");
-            printf("%c ", text1[i-1]);
-            for(int j = 1, len2 = text2.size(); j <= len2; ++j)
-            {
-                printf("%d ", temp[i][j]);
-            }
-        }
-        return temp[len1][len2];
-    }
+	int longestCommonSubsequence(string text1, string text2)
+	{
+		int n1 = text1.size(), n2 = text2.size();
+		vector<vector<int>> temp(n1 + 1, vector<int>(n2 + 1));
+		for (int i = n1 - 1; i >= 0; --i)
+		{
+			for (int j = n2 - 1; j >= 0; --j)
+			{
+				if (text1[i] == text2[j])
+					temp[i][j] += temp[i + 1][j + 1] + 1;
+				else
+					temp[i][j] = max(temp[i + 1][j], temp[i][j + 1]);
+			}
+		}
+		return temp[0][0];
+	}
+	int longestCommonSubsequence2(string text1, string text2)
+	{
+		int n1 = text1.size(), n2 = text2.size();
+		vector<int> temp(n2 + 1);
+		for (int i = n1 - 1; i >= 0; --i)
+		{
+			int pre{};
+			for (int j = n2 - 1; j >= 0; --j)
+			{
+				auto a = text1[i] == text2[j] ? pre + 1 : max(temp[j], temp[j + 1]);
+				pre = temp[j];
+				temp[j] = a;
+			}
+		}
+		return temp[0];
+	}
 };
 
-int main(){
-//    string a="abcdefabcdef";
-//    string b="eaecfg";
-//string a="ghbrgc";
-//string b="hafcdqbgncrcbihkd";
-string a="mhunuzqrkzsnidwbun";
-string b="szuluspmhwpazoxijwbq";
+int main()
+{
+	string a = "bsbinm";
+	string b = "jmbkv";
 
-//string a="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//;string b="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//;
+	//string a="ghbrgc";
+	//string b="hafcdqbgncrcbihkd";
+	//	string a = "mhunuzqrkzsnidwbun";
+	//	string b = "szuluspmhwpazoxijwbq";
+	//string a="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	//;string b="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	//;
 
-    Solution s;
-    printf("\n");
-    printf("%d ",s.longestCommonSubsequence(a,b));
-    
+	Solution s;
+	printf("\n");
+	printf("%d ", s.longestCommonSubsequence2(a, b));
 }
