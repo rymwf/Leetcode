@@ -50,11 +50,12 @@ public:
 		if (m * n != r * c)
 			return nums;
 		vector<vector<int>> ret(r, vector<int>(c));
+		int a;
 		for (int i = 0; i < m; ++i)
 		{
 			for (int j = 0; j < n; ++j)
 			{
-				auto a = i * n + j;
+				a = i * n + j;
 				ret[a / c][a % c] = nums[i][j];
 			}
 		}
