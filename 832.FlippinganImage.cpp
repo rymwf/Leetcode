@@ -41,15 +41,9 @@ public:
 	vector<vector<int>> flipAndInvertImage2(vector<vector<int>> &A)
 	{
 		for (auto &&v : A)
-		{
 			for (auto l = v.begin(), r = v.end() - 1; l <= r; ++l, --r)
-			{
-				if (l == r)
-					*l = !*l;
-				else if (*l == *r)
+				if (*l == *r)
 					*l = *r = !*r;
-			}
-		}
 		return A;
 	}
 };
