@@ -32,14 +32,26 @@ public:
 		ret.reserve(n);
 		for (int i = 0; i < n; ++i)
 		{
-			while (!ret.empty() && ret.back() == S[i])
-			{
+			if (ret.empty() || ret.back() != S[i])
+				ret += S[i];
+			else
 				ret.pop_back();
-				if (++i == n)
-					return ret;
-			}
-			ret += S[i];
 		}
 		return ret;
+	}
+	string removeDuplicates(string S)
+	{
+		int n{-1};
+		for (int i = 0, len = S.size(); i < len; ++i)
+		{
+			if (n == -1 || S[n] != S[i])
+			{
+				++n;
+				S[n] = S[i];
+			}
+			else
+				--n;
+		}
+		return S.substr(0, n + 1);
 	}
 };
